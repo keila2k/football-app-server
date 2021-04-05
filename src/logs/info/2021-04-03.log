@@ -1,0 +1,9 @@
+2021-04-03 01:02:16 info: 🚀 App listening on the port 3000
+2021-04-03 01:02:16 info: 🟢 The database is connected.
+2021-04-03 01:04:05 info: [0mGET / [32m200[0m 5.248 ms - 2[0m
+2021-04-03 01:04:05 info: [0mGET /favicon.ico [33m404[0m 1.707 ms - 150[0m
+2021-04-03 01:04:10 info: [0mGET /users [32m200[0m 8.346 ms - 31[0m
+2021-04-03 01:07:40 info: [0mGET /users [32m200[0m 4.112 ms - 31[0m
+2021-04-03 01:08:30 error: StatusCode : 400, Message : email must be an email, password must be a string
+2021-04-03 01:08:30 info: [0mPOST /users [33m400[0m 5.997 ms - 63[0m
+2021-04-03 01:09:19 info: [0mPOST /users [32m201[0m 126.064 ms - 175[0m

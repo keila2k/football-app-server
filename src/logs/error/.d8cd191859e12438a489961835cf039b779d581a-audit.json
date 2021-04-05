@@ -1,0 +1,14 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "C:\\Users\\okeila\\WebstormProjects\\football-app-server\\src\\logs\\error\\.d8cd191859e12438a489961835cf039b779d581a-audit.json",
+    "files": [
+        {
+            "date": 1617400929825,
+            "name": "C:\\Users\\okeila\\WebstormProjects\\football-app-server\\src\\logs\\error\\2021-04-03.error.log",
+            "hash": "1f56bcfba0349b569d7fd6729446ebba"
+        }
+    ]
+}
