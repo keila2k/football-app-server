@@ -8,7 +8,7 @@ afterAll(async () => {
 });
 
 describe('Testing Users', () => {
-  describe('GET /users', () => {
+  describe('GET /standings', () => {
     it('response All Users', () => {
       const usersRoute = new UsersRoute();
       usersRoute.usersController.userService.users.find = jest.fn().mockReturnValue(

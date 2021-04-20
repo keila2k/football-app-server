@@ -2,14 +2,15 @@ import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto } from '../dtos/users.dto';
 import { User } from '../interfaces/users.interface';
 import userService from '../services/users.service';
+import { UserDetails } from '../interfaces/user-details.interface';
 
 class UsersController {
   public userService = new userService();
 
   public getUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const findAllUsersData: User[] = await this.userService.findAllUser();
-      res.status(200).json({ data: findAllUsersData, message: 'findAll' });
+      const findAllUsersData: UserDetails[] = await this.userService.findAllUser();
+      res.status(200).json(findAllUsersData);
     } catch (error) {
       next(error);
     }
@@ -59,6 +60,18 @@ class UsersController {
       next(error);
     }
   };
+
+  public createUserDetails = async (req: Request, res: Response, next: NextFunction) => {
+    const userDetails: UserDetails = req.body;
+
+    try {
+      const userDetailsData: UserDetails = await this.userService.createUserDetails(userDetails);
+      res.status(201).json(userDetailsData);
+    } catch (error) {
+      next(error);
+    }
+  };
+
 }
 
 export default UsersController;

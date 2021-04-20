@@ -3,6 +3,7 @@ import UsersController from '../controllers/users.controller';
 import { CreateUserDto } from '../dtos/users.dto';
 import Route from '../interfaces/routes.interface';
 import validationMiddleware from '../middlewares/validation.middleware';
+import { UserDetailsImpl } from '../interfaces/user-details.interface';
 
 class UsersRoute implements Route {
   public path = '/users';
@@ -17,6 +18,7 @@ class UsersRoute implements Route {
     this.router.get(`${this.path}`, this.usersController.getUsers);
     this.router.get(`${this.path}/:id`, this.usersController.getUserById);
     this.router.post(`${this.path}`, validationMiddleware(CreateUserDto, 'body'), this.usersController.createUser);
+    this.router.post(`${this.path}/details`, validationMiddleware(UserDetailsImpl, 'body'), this.usersController.createUserDetails);
     this.router.put(`${this.path}/:id`, validationMiddleware(CreateUserDto, 'body', true), this.usersController.updateUser);
     this.router.delete(`${this.path}/:id`, this.usersController.deleteUser);
   }

@@ -12,6 +12,7 @@ import { dbConnection } from './database';
 import Routes from './interfaces/routes.interface';
 import errorMiddleware from './middlewares/error.middleware';
 import { logger, stream } from './utils/logger';
+import { scheduleJob } from 'node-schedule';
 
 class App {
   public app: express.Application;
@@ -28,6 +29,7 @@ class App {
     this.initializeRoutes(routes);
     this.initializeSwagger();
     this.initializeErrorHandling();
+    // this.initializeScheduledTasks();
   }
 
   public listen() {
@@ -95,6 +97,13 @@ class App {
 
   private initializeErrorHandling() {
     this.app.use(errorMiddleware);
+  }
+
+  private initializeScheduledTasks() {
+    let job = scheduleJob('*/1 * * * * *', function() {
+      console.log('Today is recognized by Rebecca Black!');
+    });
+    console.log(job);
   }
 }
 
