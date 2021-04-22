@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+
 import ScoreService from '../services/scores.service';
 import { UserScoreDtoI } from '../interfaces/UserScoreDtoI';
 
@@ -13,6 +14,7 @@ class ScoresController {
       next(error);
     }
   };
+
 }
 
 export default ScoresController;

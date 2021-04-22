@@ -1,10 +1,11 @@
 import { StandingI } from './StandingI';
-import { Match } from './Match';
 import { UserPredictionDtoI } from './UserPredictionDtoI';
+import { MatchPredictionI } from './MatchPrediction';
 
 export class UserPredictionDto implements UserPredictionDtoI {
   _id?: string;
-  standings: StandingI[];
-  matches: Match[];
-  uid: string;
+  standings?: StandingI[];
+  matchScores?: MatchPredictionI[];
+  finalsMatches?: MatchPredictionI[];
+  uid: string
 }

@@ -8,6 +8,7 @@ import PredictionsRoute from './routes/predictons.route';
 import StandingsRoute from './routes/standingsRoute';
 import ScoresRoute from './routes/scores.route';
 import GeneralRoute from './routes/general.route';
+import MatchesRoute from './routes/matches.route';
 
 validateEnv();
 
@@ -18,7 +19,8 @@ const app = new App([
   new PredictionsRoute(),
   new StandingsRoute(),
   new ScoresRoute(),
-  new GeneralRoute()
+  new GeneralRoute(),
+  new MatchesRoute()
 ]);
 
 app.listen();

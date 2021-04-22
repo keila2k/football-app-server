@@ -38,10 +38,10 @@ class PredictionsController {
 
   public updatePrediction = async (req: Request, res: Response, next: NextFunction) => {
     const predictionId: string = req.params.id;
-    const predictionData: UserPredictionDtoI = req.body;
+    const userPredictionDtoI: UserPredictionDtoI = req.body;
 
     try {
-      const updatePredictionData: UserPredictionDtoI = await this.predictionService.updatePrediction(predictionId, predictionData);
+      const updatePredictionData: UserPredictionDtoI = await this.predictionService.updatePrediction(predictionId, userPredictionDtoI);
       res.status(200).json(updatePredictionData);
     } catch (error) {
       next(error);

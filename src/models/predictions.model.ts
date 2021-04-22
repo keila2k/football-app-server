@@ -5,7 +5,10 @@ const predictionSchema: Schema = new Schema({
   standings: {
     type: ['Mixed'],
   },
-  matches: {
+  matchScores: {
+    type: ['Mixed'],
+  },
+  finalsMatches: {
     type: ['Mixed'],
   },
   uid: {

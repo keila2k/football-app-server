@@ -3,28 +3,29 @@ import scoreModel from '../models/scores.model';
 class ScoreService {
   public scores = scoreModel;
 
+
   async findAllScores() {
     return this.scores.aggregate([
       {
-        $lookup:{
-          from: "userdetails",
-          localField: "uid",
-          foreignField: "uid",
-          as: "user_details"
-        }
+        $lookup: {
+          from: 'userdetails',
+          localField: 'uid',
+          foreignField: 'uid',
+          as: 'user_details',
+        },
       },
-      {   $unwind:"$user_details" },
+      { $unwind: '$user_details' },
       {
-        $project:{
-          _id : 0,
+        $project: {
+          _id: 0,
           score: 1,
           uid: 1,
-          name : "$user_details.name",
-          img : "$user_details.img",
-        }
+          name: '$user_details.name',
+          img: '$user_details.img',
+        },
       },
-      { $sort : { score : -1 } }
-    ])
+      { $sort: { score: -1 } },
+    ]);
   }
 }
 
