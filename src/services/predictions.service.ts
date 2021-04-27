@@ -5,6 +5,8 @@ import { UserPredictionDtoI } from '../interfaces/UserPredictionDtoI';
 import { MatchPrediction, MatchPredictionI } from '../interfaces/MatchPrediction';
 import scoreModel from '../models/scores.model';
 import { UserScoreDtoI } from '../interfaces/UserScoreDtoI';
+import { LeagueStandingsI } from '../interfaces/LeagueStandingsI';
+import { StandingI } from '../interfaces/StandingI';
 
 class PredictionsService {
   public predictions = predictionModel;
@@ -73,6 +75,30 @@ class PredictionsService {
     return score;
   }
 
+  private calculateStandingsScore(userPredictionDto: UserPredictionDtoI, leagueStandings: LeagueStandingsI): number {
+    let score = 0;
+    userPredictionDto.standings.forEach(userPredictionStanding => {
+      let actualStanding: StandingI = leagueStandings.standings.find(leagueStanding => leagueStanding?.group?.groupName === userPredictionStanding.group.groupName);
+      if (actualStanding) {
+        score += this.calculateGroupScore(userPredictionStanding, actualStanding);
+      }
+    });
+    return score;
+  }
+
+  private calculateGroupScore(userPredictionStanding: StandingI, actualStanding: StandingI) {
+    let score = 0;
+    for (let i = 0; i < userPredictionStanding.items.length; i++) {
+      const userPredictionGroupItem = userPredictionStanding.items[i];
+      const actualGroupItem = actualStanding.items[i];
+      if (userPredictionGroupItem.rank == actualGroupItem?.rank &&
+        userPredictionGroupItem.team.internationalName === actualGroupItem?.team.internationalName) {
+        score += 2;
+      }
+    }
+    return score;
+  }
+
   private isSelectedSideRight(selectedMatch: MatchPredictionI, matchPrediction: MatchPrediction) {
     return selectedMatch.homeTeamScore > selectedMatch.awayTeamScore && matchPrediction.homeTeamScore > matchPrediction.awayTeamScore ||
       selectedMatch.homeTeamScore < selectedMatch.awayTeamScore && matchPrediction.homeTeamScore < matchPrediction.awayTeamScore ||
@@ -85,6 +111,23 @@ class PredictionsService {
 
   private isScoreAccurate(selectedMatch: MatchPredictionI, matchPrediction: MatchPrediction) {
     return selectedMatch.homeTeamScore === matchPrediction.homeTeamScore && selectedMatch.awayTeamScore === matchPrediction.awayTeamScore;
+  }
+
+  async onStandingsEnd(leagueStandings: LeagueStandingsI) {
+    const updatedUsers: String[] = [];
+    try {
+      const userPredictionDtos: UserPredictionDtoI[] = await this.predictions.find();
+      for (const userPredictionDto of userPredictionDtos) {
+        const score = this.calculateStandingsScore(userPredictionDto, leagueStandings);
+        if (score > 0) {
+          await this.updateUserScore(userPredictionDto.uid, score);
+          updatedUsers.push(userPredictionDto.uid);
+        }
+      }
+      return updatedUsers;
+    } catch (e) {
+      throw new HttpException(400, 'Error on standing end');
+    }
   }
 }
 
